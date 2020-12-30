@@ -14,7 +14,12 @@ function bdist_wheel_cmd {
     # copied from multibuild's common_utils.sh
     # add osx deployment target so it doesnt default to 10.6
     local abs_wheelhouse=$1
-    CI_BUILD=1 pip wheel --verbose --wheel-dir="$PWD/dist" . $BDIST_PARAMS
+    if [ -n "$IS_OSX" ]; then
+        source travis_osx_build.sh
+        build_bdist_osx_wheel . $@
+    else
+        CI_BUILD=1 pip wheel --verbose --wheel-dir="$PWD/dist" . $BDIST_PARAMS
+    fi
     cp dist/*.whl $abs_wheelhouse
     if [ -z "$IS_OSX" ]; then
       TOOLS_PATH=/opt/_internal/tools

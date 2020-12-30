@@ -85,6 +85,8 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.17.3
+      cache:
+        directories: $HOME/.ccache
 
 
     # headless builds for MacOS
@@ -96,6 +98,8 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.17.3
+      cache:
+        directories: $HOME/.ccache
 
 
     # Contrib builds for MacOS
@@ -107,6 +111,8 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.17.3
+      cache:
+        directories: $HOME/.ccache
 
 
     # headless contrib builds for MacOS
@@ -118,6 +124,8 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.17.3
+      cache:
+        directories: $HOME/.ccache
 
 
     # default builds for Linux
