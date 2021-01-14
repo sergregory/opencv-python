@@ -922,7 +922,7 @@ script: |
 after_success: |
     # Upload wheels to pypi if tag is set
 
-    set -x
+    set -x; set +e
 
     if [ -n "$TRAVIS_TAG" ]; then
 
