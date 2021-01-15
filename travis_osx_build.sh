@@ -44,6 +44,7 @@ function pre_build_osx {
         -DBUILD_TESTS=OFF
         -DBUILD_PERF_TESTS=OFF
         -DBUILD_DOCS=OFF
+        -DBUILD_LIST=core,imgproc,videoio,python3 # FIXME: experiments
     )
     if [ $ENABLE_CONTRIB -ne 0 ]; then
         CMAKE_OPTS+=(-DOPENCV_EXTRA_MODULES_PATH="$repo_dir/opencv_contrib/modules")

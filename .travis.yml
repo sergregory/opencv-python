@@ -23,7 +23,6 @@ cache:
 # Add more cache stages (s2 etc) and corresponding OSX jobs like s1
 # if brew builds start to take longer than one Travis time limit
 stages:
-  - s1
   - final
 
 jobs:
@@ -32,76 +31,9 @@ jobs:
   exclude:
     - language: ruby
   include:
-    # source distributions
-    - os: linux
-      stage: s1
-      script: skip
-      env:
-        - SDIST=1
-        - ENABLE_CONTRIB=0
-        - ENABLE_HEADLESS=0
-      python: "3.8"
-      language: python
-      dist: xenial
-    - os: linux
-      stage: s1
-      script: skip
-      env:
-        - SDIST=1
-        - ENABLE_CONTRIB=0
-        - ENABLE_HEADLESS=1
-      python: "3.8"
-      language: python
-      dist: xenial
-    - os: linux
-      stage: s1
-      script: skip
-      env:
-        - SDIST=1
-        - ENABLE_CONTRIB=1
-        - ENABLE_HEADLESS=0
-      python: "3.8"
-      language: python
-      dist: xenial
-    - os: linux
-      stage: s1
-      script: skip
-      env:
-        - SDIST=1
-        - ENABLE_CONTRIB=1
-        - ENABLE_HEADLESS=1
-      python: "3.8"
-      language: python
-      dist: xenial
-
     # default builds for MacOS
       #further jobs in the list will use the same stage until the next assignment
     - stage: final
-    - os: osx
-      language: generic
-      osx_image: xcode11.6
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - ENABLE_CONTRIB=0
-        - ENABLE_HEADLESS=0
-        - TEST_DEPENDS=numpy==1.17.3
-      cache:
-        directories: $HOME/.ccache
-
-
-    # headless builds for MacOS
-    - os: osx
-      language: generic
-      osx_image: xcode11.6
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - ENABLE_CONTRIB=0
-        - ENABLE_HEADLESS=1
-        - TEST_DEPENDS=numpy==1.17.3
-      cache:
-        directories: $HOME/.ccache
-
-
     # Contrib builds for MacOS
     - os: osx
       language: generic
@@ -114,72 +46,6 @@ jobs:
       cache:
         directories: $HOME/.ccache
 
-
-    # headless contrib builds for MacOS
-    - os: osx
-      language: generic
-      osx_image: xcode11.6
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - ENABLE_CONTRIB=1
-        - ENABLE_HEADLESS=1
-        - TEST_DEPENDS=numpy==1.17.3
-      cache:
-        directories: $HOME/.ccache
-
-
-    # default builds for Linux
-    - os: linux
-      language: generic
-      dist: xenial
-      services: docker
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - ENABLE_CONTRIB=0
-        - ENABLE_HEADLESS=0
-        - TEST_DEPENDS=numpy==1.17.3
-      cache:
-        directories: $HOME/.ccache
-
-    # headless builds for Linux
-    - os: linux
-      language: generic
-      dist: xenial
-      services: docker
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - ENABLE_CONTRIB=0
-        - ENABLE_HEADLESS=1
-        - TEST_DEPENDS=numpy==1.17.3
-      cache:
-        directories: $HOME/.ccache
-
-    # contrib builds for Linux
-    - os: linux
-      language: generic
-      dist: xenial
-      services: docker
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - TEST_DEPENDS=numpy==1.17.3
-        - ENABLE_CONTRIB=1
-        - ENABLE_HEADLESS=0
-      cache:
-        directories: $HOME/.ccache
-
-
-    # headless contrib builds for Linux
-    - os: linux
-      language: generic
-      dist: xenial
-      services: docker
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - TEST_DEPENDS=numpy==1.17.3
-        - ENABLE_CONTRIB=1
-        - ENABLE_HEADLESS=1
-      cache:
-        directories: $HOME/.ccache
 
 # The first line is printed in the folding header in Travis output
 before_install: |
