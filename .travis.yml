@@ -85,7 +85,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.13.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -95,7 +94,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.14.5
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -105,7 +103,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.17.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -115,7 +112,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.19.3
-        - CACHE_NAME=osx
 
 
     # headless builds for MacOS
@@ -127,7 +123,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.13.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -137,7 +132,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.14.5
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -147,7 +141,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.17.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -157,7 +150,6 @@ jobs:
         - ENABLE_CONTRIB=0
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.19.3
-        - CACHE_NAME=osx
 
 
     # Contrib builds for MacOS
@@ -169,7 +161,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.13.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -179,7 +170,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.14.5
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -189,7 +179,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.17.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -199,7 +188,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=0
         - TEST_DEPENDS=numpy==1.19.3
-        - CACHE_NAME=osx
 
 
     # headless contrib builds for MacOS
@@ -211,7 +199,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.13.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -221,7 +208,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.14.5
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -231,7 +217,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.17.3
-        - CACHE_NAME=osx
 
     - os: osx
       language: generic
@@ -241,7 +226,6 @@ jobs:
         - ENABLE_CONTRIB=1
         - ENABLE_HEADLESS=1
         - TEST_DEPENDS=numpy==1.19.3
-        - CACHE_NAME=osx
 
 
     # default builds for Linux
