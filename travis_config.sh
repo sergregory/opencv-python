@@ -14,6 +14,7 @@ function bdist_wheel_cmd {
     # copied from multibuild's common_utils.sh
     # add osx deployment target so it doesnt default to 10.6
     local abs_wheelhouse=$1
+    pip3 install --upgrade scikit-build setuptools wheel cmake pip
     CI_BUILD=1 python3 setup.py --verbose bdist_wheel --dist-dir="$PWD/dist" $BDIST_PARAMS
     cp dist/*.whl $abs_wheelhouse
     if [ -z "$IS_OSX" ]; then
