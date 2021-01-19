@@ -15,6 +15,8 @@ function pre_build_osx {
     local build_dir="$repo_dir/opencv/build"
     local num_cpus=$(sysctl -n hw.ncpu)
     num_cpus=${num_cpus:-4}
+    local travis_start_time=$(($TRAVIS_TIMER_START_TIME/10**9))
+    local time_limit=$((30*60))
 
     cd "$repo_dir"
     git submodule sync
@@ -128,13 +130,18 @@ function pre_build_osx {
     )
     for m in "${CV_MODULES[@]}"; do
         if make help | grep -w "$m"; then
+            # Check time limit (3min should be enough for a module to built)
+            local projected_time=$(($(date +%s) - travis_start_time + 3 * 60))
+            if [ $projected_time -ge $time_limit ]; then
+                echo "*** Not enough time to build $m: $((projected_time/60))m (${projected_time}s)"
+                return 1
+            fi
             make -j${num_cpus} "$m"
+            local elapsed_time=$(($(date +%s) - travis_start_time))
+            echo "Elapsed time: "$((elapsed_time/60))"m (${elapsed_time}s)"
         fi
     done
     make -j${num_cpus}
-
-    # Print ccache stats
-    ccache -s
 }
 
 function build_osx {
@@ -170,7 +177,7 @@ function build_osx {
 function build_bdist_osx_wheel {
     local repo_dir=$(abspath ${1:-$REPO_DIR})
     [ -z "$repo_dir" ] && echo "repo_dir not defined" && exit 1
-    pre_build_osx "$repo_dir"
+    pre_build_osx "$repo_dir" || return $?
     if [ -n "$BUILD_DEPENDS" ]; then
         pip install $(pip_opts) $BUILD_DEPENDS
     fi

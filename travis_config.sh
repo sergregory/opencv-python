@@ -16,7 +16,7 @@ function bdist_wheel_cmd {
     local abs_wheelhouse=$1
     if [ -n "$IS_OSX" ]; then
         source travis_osx_build.sh
-        build_bdist_osx_wheel . $@
+        build_bdist_osx_wheel . $@ || return $?
     else
         CI_BUILD=1 pip wheel --verbose --wheel-dir="$PWD/dist" . $BDIST_PARAMS
     fi
