@@ -117,7 +117,7 @@ def main():
     ci_cmake_generator = (
         ["-G", "Visual Studio 14" + (" Win64" if x64 else "")]
         if os.name == "nt"
-        else ["-G", "Unix Makefiles"]
+        else ["-G", "Ninja"]
     )
 
     cmake_args = (

@@ -114,6 +114,7 @@ function pre_build {
         brew unlink python@2
         generate_ffmpeg_formula
         brew install ffmpeg_opencv
+        brew install ninja
     fi
 
     # echo 'Installing qt5'
