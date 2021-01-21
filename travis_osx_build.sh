@@ -10,21 +10,46 @@ function package_name() {
     wheel_name=$name
 }
 
+# Terminate the build but ensure saving the cache
+function goto_exit {
+    local EXIT_CODE=${1:-1}
+
+    echo "Exiting build"
+
+    # Can't just `exit` because that would terminate the build without saving the cache
+    # Have to replace further actions with no-ops
+
+    local MESSAGE=""; if [ "$EXIT_CODE" -ne 0 ]; then
+        MESSAGE='Building package took too long. Restart the build in Travis UI to continue from cache.'
+    fi
+
+    set +e
+
+    eval '
+    function install_run {'\
+        "$(if [ -n "$MESSAGE" ]; then
+            echo '        echo -e "\n'"$MESSAGE"'\n"'
+        fi)"\
+    '
+        # Travis runs user scripts via `eval` i.e. in the same shell process.
+        # So have to unset errexit in order to get to cache save stage
+        set +e
+        return '"$EXIT_CODE"'
+    }'
+}
+
 function pre_build_osx {
     local repo_dir=$(abspath ${1:-$REPO_DIR})
     local build_dir="$repo_dir/opencv/build"
     local num_cpus=$(sysctl -n hw.ncpu)
     num_cpus=${num_cpus:-4}
     local travis_start_time=$(($TRAVIS_TIMER_START_TIME/10**9))
-    local time_limit=$((30*60))
+    local time_limit=$((46*60))
 
     cd "$repo_dir"
     git submodule sync
     git submodule update --init --recursive opencv
     git submodule update --init --recursive opencv_contrib
-
-    pip install scikit-build
-    pip install numpy
 
     if [ ! -d "$build_dir" ]; then
         mkdir "$build_dir"
@@ -127,13 +152,15 @@ function pre_build_osx {
         opencv_alphamat
         opencv_stitching
         opencv_gapi
+        all
     )
     for m in "${CV_MODULES[@]}"; do
         if make help | grep -w "$m"; then
             # Check time limit (3min should be enough for a module to built)
             local projected_time=$(($(date +%s) - travis_start_time + 3 * 60))
             if [ $projected_time -ge $time_limit ]; then
-                echo "*** Not enough time to build $m: $((projected_time/60))m (${projected_time}s)"
+                ccache -s
+                goto_exit
                 return 1
             fi
             make -j${num_cpus} "$m"
@@ -142,6 +169,7 @@ function pre_build_osx {
         fi
     done
     make -j${num_cpus}
+    ccache -s
 }
 
 function build_osx {
@@ -177,9 +205,14 @@ function build_osx {
 function build_bdist_osx_wheel {
     local repo_dir=$(abspath ${1:-$REPO_DIR})
     [ -z "$repo_dir" ] && echo "repo_dir not defined" && exit 1
+    local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
+    start_spinner
+    if [ -n "$(is_function "pre_build")" ]; then pre_build; fi
+    stop_spinner
+    pip install scikit-build
+    pip install numpy
     pre_build_osx "$repo_dir" || return $?
-    if [ -n "$BUILD_DEPENDS" ]; then
-        pip install $(pip_opts) $BUILD_DEPENDS
-    fi
     build_osx "$repo_dir"
+    cp "$repo_dir"/dist/*.whl "$wheelhouse"
+    repair_wheelhouse "$wheelhouse"
 }

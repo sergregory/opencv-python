@@ -85,6 +85,7 @@ install: |
       python setup.py sdist
     else
       build_wheel $REPO_DIR $PLAT
+      ret_code=$?
     fi
 
     set +x
@@ -105,8 +106,18 @@ script: |
     trap ERR
     test "$rc" -eq 0
 
+after_failure: |
+    # after_failure
+    echo "Error code after <install>:" $ret_code
+
 after_success: |
     # Upload wheels to pypi if tag is set
+    if [[ $SDIST != 0 ]]; then
+      echo "Error code after <install>:" $ret_code
+      if [[ $ret_code != 0 ]]; then
+        exit $ret_code
+      fi
+    fi
 
     set -x; set +e
 
