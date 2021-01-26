@@ -125,26 +125,26 @@ after_success: |
 
       if [[ $ENABLE_CONTRIB == 0 ]]; then
         if [[ $ENABLE_HEADLESS == 0 ]]; then
-          echo "This is default build. Deployment will be done to to PyPI entry opencv-python."
+          echo "This is default build. Deployment will be done to PyPI entry opencv-python."
         else
-          echo "This is headless contrib build. Deployment will be done to to PyPI entry opencv-python-headless."
+          echo "This is headless contrib build. Deployment will be done to PyPI entry opencv-python-headless."
         fi
       else
         if [[ $ENABLE_HEADLESS == 0 ]]; then
-          echo "This is contrib build. Deployment will be done to to PyPI entry opencv-contrib-python."
+          echo "This is contrib build. Deployment will be done to PyPI entry opencv-contrib-python."
         else
-          echo "This is headless contrib build. Deployment will be done to to PyPI entry opencv-contrib-python-headless."
+          echo "This is headless contrib build. Deployment will be done to PyPI entry opencv-contrib-python-headless."
         fi
       fi
 
       if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
         if [[ $SDIST == 1 ]]; then
           pip install twine
-          twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/dist/opencv*
+          twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/dist/openc*
         else
           pip install --user twine
           pip install --user --upgrade six
-          twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/wheelhouse/opencv*
+          twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/wheelhouse/openc*
         fi
 
       fi
@@ -157,9 +157,9 @@ after_success: |
         /usr/bin/python -m pip install --user -U -I twine
 
         if [[ $SDIST == 1 ]]; then
-          /usr/bin/python -m twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/dist/opencv*
+          /usr/bin/python -m twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/dist/openc*
         else
-          /usr/bin/python -m twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/wheelhouse/opencv*
+          /usr/bin/python -m twine upload -u ${PYPI_USER} -p ${PASS} --skip-existing ${TRAVIS_BUILD_DIR}/wheelhouse/openc*
         fi
 
       fi
@@ -180,7 +180,7 @@ after_success: |
       if [[ $SDIST == 1 ]]; then
         az storage blob upload-batch -d ${TRAVIS_COMMIT} -s ${TRAVIS_BUILD_DIR}/dist --pattern *.gz
       else
-        az storage blob upload-batch -d ${TRAVIS_COMMIT} -s ${TRAVIS_BUILD_DIR}/wheelhouse --pattern opencv*.whl
+        az storage blob upload-batch -d ${TRAVIS_COMMIT} -s ${TRAVIS_BUILD_DIR}/wheelhouse --pattern openc*.whl
       fi
     fi
 

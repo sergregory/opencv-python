@@ -45,16 +45,16 @@ def main():
     build_contrib = version["contrib"]
     build_headless = version["headless"]
 
-    package_name = "opencv-python"
+    package_name = "opencovis-python"
 
     if build_contrib and not build_headless:
-        package_name = "opencv-contrib-python"
+        package_name = "opencovis-contrib-python"
 
     if build_contrib and build_headless:
-        package_name = "opencv-contrib-python-headless"
+        package_name = "opencovis-contrib-python-headless"
 
     if build_headless and not build_contrib:
-        package_name = "opencv-python-headless"
+        package_name = "opencovis-python-headless"
 
     long_description = io.open("README.md", encoding="utf-8").read()
 
@@ -70,7 +70,7 @@ def main():
     setuptools.setup(
         name=package_name,
         version=package_version,
-        url="https://github.com/skvark/opencv-python",
+        url="https://github.com/GArik/opencv-python",
         license="MIT",
         description="Wrapper package for OpenCV python bindings.",
         long_description=long_description,
@@ -78,7 +78,7 @@ def main():
         packages=packages,
         package_data=package_data,
         include_package_data=True,
-        maintainer="Olli-Pekka Heinisuo",
+        maintainer="Igor Murzov",
         ext_modules=EmptyListWithLength(),
         install_requires=numpy_version,
         python_requires=">=3.6",
