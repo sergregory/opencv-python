@@ -31,9 +31,13 @@ def main():
     if sys.version_info[:2] >= (3, 9):
         minimum_supported_numpy = "1.19.3"
 
-    # arm64 is a special case
-    if sys.version_info[:2] >= (3, 6) and platform.machine() == "aarch64":
+    # linux arm64 is a special case
+    if sys.platform.startswith("linux") and sys.version_info[:2] >= (3, 6) and platform.machine() == "aarch64":
         minimum_supported_numpy = "1.19.3"
+
+    # macos arm64 is a special case
+    if sys.platform == "darwin" and sys.version_info[:2] >= (3, 6) and platform.machine() == "aarch64":
+        minimum_supported_numpy = "1.20.1"
 
     numpy_version = "numpy>=%s" % minimum_supported_numpy
 
@@ -93,7 +97,7 @@ def main():
     # Path regexes with forward slashes relative to CMake install dir.
     rearrange_cmake_output_data = {
         "cv2": (
-            [r"bin/opencv_videoio_ffmpeg\d{3}%s\.dll" % ("_64" if x64 else "")]
+            [r"bin/opencv_ffmpeg\d{3,4}%s\.dll" % ("_64" if x64 else "")]
             if os.name == "nt"
             else []
         )
@@ -106,7 +110,7 @@ def main():
             % {"ext": re.escape(sysconfig.get_config_var("EXT_SUFFIX"))}
         ],
         "cv2.data": [  # OPENCV_OTHER_INSTALL_PATH
-            ("etc" if os.name == "nt" else "share/opencv4") + r"/haarcascades/.*\.xml"
+            ("etc" if os.name == "nt" else "share/OpenCV") + r"/haarcascades/.*\.xml"
         ],
     }
 
