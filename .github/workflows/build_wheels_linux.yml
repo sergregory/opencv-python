@@ -3,7 +3,7 @@ name: Build PYPI wheels for opencv-python on Linux x86_64
 on:
   push:
     branches:
-      - asen/check_3.4_wo_submodules
+      - gs/fix-submodules-checkout
   pull_request:
     branches:
       - 3.4
